@@ -279,6 +279,7 @@ do_install() {
 			apt_repo="deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/sonaric.gpg] $APT_DOWNLOAD_URL stable main"
 			(
 				exec_cmd "apt-get update -qq > $DEVNULL"
+      exec_cmd "DEBIAN_FRONTEND=noninteractive apt-get satisfy -y --allow-downgrades -qq --dry-run 'podman (>=3.4.0)' > $DEVNULL" || (
 				exec_cmd "DEBIAN_FRONTEND=noninteractive apt-get install -y -qq $pre_reqs > $DEVNULL"
 				exec_cmd 'install -m 0755 -d /etc/apt/keyrings'
 				exec_cmd "curl -fsSL \"$APT_KEY_URL\" | gpg --dearmor --yes -o /etc/apt/keyrings/sonaric.gpg > $DEVNULL 2>&1"
