@@ -286,7 +286,7 @@ do_install() {
 				exec_cmd "echo \"$apt_repo\" > /etc/apt/sources.list.d/sonaric.list"
 				exec_cmd "apt-get update -qq > $DEVNULL"
 			)
-			exec_cmd "DEBIAN_FRONTEND=noninteractive apt-get install -y -qq sonaric > $DEVNULL"
+			exec_cmd "DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-downgrades -qq sonaric > $DEVNULL"
 			;;
 		centos|fedora|rhel|rocky)
 		  # use dnf for fedora or rocky linux, yum for centos or rhel
@@ -299,7 +299,7 @@ do_install() {
 			fi
 
 			(
-				exec_cmd "$pkg_manager install -y -q $pre_reqs > $DEVNULL"
+				exec_cmd "$pkg_manager install -y --allow-downgrades -q $pre_reqs > $DEVNULL"
 				exec_cmd "echo \"[sonaric-releases-rpm]
 name=sonaric-releases-rpm
 baseurl=$RPM_DOWNLOAD_URL
@@ -312,7 +312,7 @@ gpgcheck=0\" > /etc/yum.repos.d/artifact-registry.repo"
 			)
 			(
 				pkgs="sonaricd sonaric"
-				exec_cmd "$pkg_manager install -y -q $pkgs > $DEVNULL"
+				exec_cmd "$pkg_manager install -y --allow-downgrades -q $pkgs > $DEVNULL"
 			)
 			;;
 		*)
