@@ -267,7 +267,7 @@ do_install() {
       exec_cmd "apt-get update -qq > $DEVNULL"
 
       # Check if apt satisfies the version requirement
-      exec_cmd "DEBIAN_FRONTEND=noninteractive apt-get satisfy -y -qq --dry-run 'podman (>=3.4.0)' > $DEVNULL" || (
+      exec_cmd "DEBIAN_FRONTEND=noninteractive apt-get satisfy -y --allow-downgrades -qq --dry-run 'podman (>=3.4.0)' > $DEVNULL" || (
         echo "ERROR: Available podman version is too old, please upgrade to a supported distro"
         exit 1
       )
